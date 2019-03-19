@@ -17,3 +17,17 @@ INSERT INTO accounts (username, city, transactions_completed, transactions_attem
 VALUES ('oprah', 'kosciusko', 232, 232, 12523191.18);
 -- The bank is losing money in Miami and Phoenix and needs to unload low transaction customers: How do you delete users that reside in miami OR phoenix and have completed fewer than 5 transactions.
 DELETE FROM "accounts" WHERE "transactions_attempted" < 5 AND ("city" = 'miami' OR "city" = 'phoenix');
+
+-- Stretch
+-- Anthony moved to Santa Fe
+UPDATE "accounts" SET "city" = 'santa fe' WHERE "username" = 'anthony'; -- This works assuming there is only one anthony
+-- Grace closed her account
+UPDATE "accounts" SET "account_balance" = 0.00 WHERE "username" = "grace"; -- This works assuming there is only one grace
+DELETE FROM "accounts" WHERE "username" = 'grace';
+-- Travis made a withdrawl of $20,000. What's their new balance? NOTE: Research RETURNING
+UPDATE "accounts" SET "account_balance" = "account_balance" - 20000 
+WHERE "username" = 'travis' 
+RETURNING "username", "account_balance" AS "new_account_balance";
+-- The Bank needs to track last names. NOTE: Research ALTER TABLE https://www.postgresql.org/docs/10/static/sql-altertable.html
+ALTER TABLE accounts
+ADD COLUMN last_name VARCHAR(12);
